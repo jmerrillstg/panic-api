@@ -1,8 +1,9 @@
 # Created by .ignore support plugin (hsz.mobi)
-/theset-api.iml
 /.git/
 /.idea/
 /node_modules/
 /npm-debug.log
 /jwtKey.js
 /dbconnect.js
+/panic-api.iml
+
