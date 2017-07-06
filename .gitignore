@@ -6,4 +6,5 @@
 /jwtKey.js
 /dbconnect.js
 /panic-api.iml
-
+/mailConfig.js
+/appUrl.js

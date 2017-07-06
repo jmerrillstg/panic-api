@@ -6,17 +6,24 @@ var jwt = require('jsonwebtoken');
 var jwtKey = require('../../jwtKey.js');
 
 exports.login = function(req, res) {
-    var loginQuery = 'SELECT source_id, source_password, user_level FROM sources WHERE source_email=\''+req.body.username+'\'';
+    var loginQuery = 'SELECT user_id, user_password, user_level FROM users WHERE user_email=\''+req.body.username+'\'';
 
     connection.query(loginQuery, function (err, auth) {
         if (err || !auth || !auth.length) {
-            return res.sendStatus(401);
+            return res.status(401).json({'status': 'Username or password not found.'});
         } else {
-            if (passwordHash.verify(req.body.password, auth[0].source_password)){
-                var token = jwt.sign({id: auth[0].source_id, userLevel: auth[0].user_level}, jwtKey);
-                return res.json({'token' : token});
+            if (passwordHash.verify(req.body.password, auth[0].user_password)){
+                var loginDateQuery = 'UPDATE users SET last_login_time=NOW() WHERE user_id='+auth[0].user_id;
+                connection.query(loginDateQuery, function (err) {
+                    if (err) {
+                        return res.status(500).json({'status': 'Database error'});
+                    } else {
+                        var token = jwt.sign({id: auth[0].user_id, userLevel: auth[0].user_level}, jwtKey);
+                        return res.json({'token' : token});
+                    }
+                });
             } else {
-                return res.sendStatus(401);
+                return res.status(401).json({'status': 'Username or password not found.'});
             }
         }
     });

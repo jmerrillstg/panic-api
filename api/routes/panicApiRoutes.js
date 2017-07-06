@@ -2,6 +2,7 @@
 module.exports = function(app) {
     var authController = require('../controllers/authController');
     var changePasswordController = require('../controllers/changePasswordController');
+    var resetPasswordController = require('../controllers/resetPasswordController');
     var usersController = require('../controllers/usersController');
 
     app.route('/api/auth')
@@ -18,4 +19,7 @@ module.exports = function(app) {
     .get(usersController.get_users)
     .put(usersController.update_user)
     .delete(usersController.delete_user);
+
+    app.route('/api/reset-password/:userEmail')
+    .get(resetPasswordController.reset_password);
 };
