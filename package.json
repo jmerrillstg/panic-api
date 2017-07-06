@@ -1,0 +1,17 @@
+{
+  "name": "panicAPI",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "express-bearer-token": "^2.1.0",
+    "jsonwebtoken": "^7.4.1",
+    "locutus": "^2.0.9",
+    "mysql": "^2.13.0",
+    "password-hash": "^1.2.2",
+    "nodemon": "^1.11.0"
+  }
+}
