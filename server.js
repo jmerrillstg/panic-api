@@ -29,9 +29,9 @@ console.log('panic RESTful API server started on: ' + port);
 gpio.on('change', function() {
     var mailOptions = {
         from: 'gutbomb@gmail.com',
-        to: 'jason.merill@stgconsulting.com;matt.nicholas@stgconsulting.com',
-        subject: 'cheese it, the feds!',
-        text: 'the FBI has arrived.  you better get down here.'
+        to: 'bryan.hansen@stgconsulting.com',
+        subject: 'this email was sent by pushing a button!',
+        text: 'did this work?'
     };
     transporter.sendMail(mailOptions, function(){});
 });
