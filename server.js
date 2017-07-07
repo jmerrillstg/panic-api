@@ -23,7 +23,7 @@ app.listen(port);
 
 console.log('panic RESTful API server started on: ' + port);
 
-gpio.on('change', function(channel, value) {
-    console.log('Channel ' + channel + ' value is now ' + value);
+gpio.on('change', function() {
+    console.log('button was pressed');
 });
 gpio.setup(36, gpio.DIR_IN, gpio.EDGE_FALLING);
