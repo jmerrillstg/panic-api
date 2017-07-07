@@ -14,7 +14,6 @@
     "nodemailer": "^4.0.1",
     "nodemon": "^1.11.0",
     "password-hash": "^1.2.2",
-    "rpi-gpio": "^0.8.1",
-    "voice.js": "^0.1.5"
+    "rpi-gpio": "^0.8.1"
   }
 }
