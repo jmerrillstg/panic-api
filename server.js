@@ -5,7 +5,7 @@ var express = require('express'),
     bearerToken = require('express-bearer-token'),
     gpio = require('rpi-gpio'),
     voice = require('voice.js');
-var mailConfig = require('../../mailConfig.js');
+var mailConfig = require('./mailConfig.js');
 var text = process.argv[4] || 'This is a test sms from jason\'s raspberry pi';
 var to = process.argv.slice(5).length ?  process.argv.slice(5) : ['18016130856', '16177497073'];
 
