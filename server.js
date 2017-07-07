@@ -2,7 +2,8 @@ var express = require('express'),
     app = express(),
     port = process.env.PORT || 3001,
     bodyParser = require('body-parser'),
-    bearerToken = require('express-bearer-token');
+    bearerToken = require('express-bearer-token'),
+    gpio = require('rpi-gpio');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -21,3 +22,8 @@ routes(app);
 app.listen(port);
 
 console.log('panic RESTful API server started on: ' + port);
+
+gpio.on('change', function(channel, value) {
+    console.log('Channel ' + channel + ' value is now ' + value);
+});
+gpio.setup(16, gpio.DIR_HIGH, gpio.EDGE_FALLING);
