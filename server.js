@@ -12,7 +12,7 @@ var to = process.argv.slice(5).length ?  process.argv.slice(5) : ['18016130856',
 var client = new voicejs.Client({
     email: process.argv[2] || mailConfig.auth.user,
     password: process.argv[3] || mailConfig.auth.pass,
-    tokens: require('../../tokens.json')
+    tokens: require('./tokens.json')
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
