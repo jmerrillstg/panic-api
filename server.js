@@ -4,8 +4,9 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     bearerToken = require('express-bearer-token'),
     gpio = require('rpi-gpio'),
-    text = 'This is a text',
-    to = ['18016130856','16177497073'];
+    nodemailer = require('nodemailer'),
+    mailConfig = require('./mailConfig.js'),
+    transporter = nodemailer.createTransport(mailConfig);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -26,6 +27,12 @@ app.listen(port);
 console.log('panic RESTful API server started on: ' + port);
 
 gpio.on('change', function() {
-    console.log('SMS "' +text+ '" sent to', to.join(', '));
+    var mailOptions = {
+        from: 'gutbomb@gmail.com',
+        to: 'jason.merill@stgconsulting.com;gutbomb@gmail.com',
+        subject: 'cheese it, the feds!',
+        text: 'the FBI has arrived.  you better get down here.'
+    };
+    transporter.sendMail(mailOptions, function(){});
 });
 gpio.setup(36, gpio.DIR_IN, gpio.EDGE_FALLING);
