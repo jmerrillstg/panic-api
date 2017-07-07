@@ -28,8 +28,8 @@ console.log('panic RESTful API server started on: ' + port);
 
 gpio.on('change', function() {
     var mailOptions = {
-        from: 'gutbomb@gmail.com',
-        to: 'bryan.hansen@stgconsulting.com',
+        from: mailconfig.auth.user,
+        to: mailconfig.auth.user, // change this to the real recipient.
         subject: 'this email was sent by pushing a button!',
         text: 'did this work?'
     };
