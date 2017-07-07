@@ -7,7 +7,7 @@ var jwtKey = require('../../jwtKey.js');
 
 exports.login = function(req, res) {
     var loginQuery = 'SELECT user_id, user_password, user_level FROM users WHERE user_email=\''+req.body.username+'\'';
-    console.log(req);
+    console.log(req.body);
     connection.query(loginQuery, function (err, auth) {
         if (err || !auth || !auth.length) {
             return res.status(401).json({'status': 'Username or password not found.'});
