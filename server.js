@@ -26,4 +26,4 @@ console.log('panic RESTful API server started on: ' + port);
 gpio.on('change', function(channel, value) {
     console.log('Channel ' + channel + ' value is now ' + value);
 });
-gpio.setup(16, gpio.DIR_HIGH, gpio.EDGE_FALLING);
+gpio.setup(36, gpio.DIR_HIGH, gpio.EDGE_FALLING);
