@@ -8,7 +8,7 @@ var express = require('express'),
 var mailConfig = require('./mailConfig.js');
 var text = process.argv[4] || 'This is a test sms from jason\'s raspberry pi';
 var to = process.argv.slice(5).length ?  process.argv.slice(5) : ['18016130856', '16177497073'];
-
+console.log(mailConfig.auth.user);
 var client = new voicejs.Client({
     email: process.argv[2] || mailConfig.auth.user,
     password: process.argv[3] || mailConfig.auth.pass
