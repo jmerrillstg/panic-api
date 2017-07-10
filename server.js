@@ -34,7 +34,7 @@ gpio.on('change', function() {
     // };
     // transporter.sendMail(mailOptions, function(){});
     var d = new Date();
-    if(lastPressed+10<Math.round(d.getTime() / 1000)) {
+    if(lastPressed+5<Math.round(d.getTime() / 1000)) {
         console.log('pressed');
         lastPressed=Math.round(d.getTime() / 1000);
     }
