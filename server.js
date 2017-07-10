@@ -25,8 +25,7 @@ routes(app);
 app.listen(port);
 
 console.log('panic RESTful API server started on: ' + port);
-var pressCount=0;
-
+var d = new Date();
 gpio.on('change', function() {
     // var mailOptions = {
     //     from: mailconfig.auth.user,
@@ -35,8 +34,6 @@ gpio.on('change', function() {
     //     text: 'did this work?'
     // };
     // transporter.sendMail(mailOptions, function(){});
-    pressCount++;
-    console.log('pressCount: '+pressCount);
-
+    console.log(Math.round(d.getTime() / 1000));
 });
 gpio.setup(5, gpio.DIR_IN, gpio.EDGE_FALLING);
