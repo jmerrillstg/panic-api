@@ -39,4 +39,4 @@ gpio.on('change', function() {
     console.log('pressCount: '+pressCount);
 
 });
-gpio.setup(5, gpio.DIR_IN, gpio.EDGE_RISING);
+gpio.setup(5, gpio.DIR_IN, gpio.EDGE_FALLING);
