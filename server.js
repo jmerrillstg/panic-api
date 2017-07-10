@@ -23,7 +23,7 @@ var routes = require('./api/routes/panicApiRoutes');
 routes(app);
 
 app.listen(port);
-
+var lastPressed=0;
 console.log('panic RESTful API server started on: ' + port);
 gpio.on('change', function() {
     // var mailOptions = {
@@ -34,6 +34,9 @@ gpio.on('change', function() {
     // };
     // transporter.sendMail(mailOptions, function(){});
     var d = new Date();
-    console.log(Math.round(d.getTime() / 1000));
+    if(lastPressed+10<Math.round(d.getTime() / 1000)) {
+        console.log('pressed');
+        lastPressed=Math.round(d.getTime() / 1000);
+    }
 });
 gpio.setup(5, gpio.DIR_IN, gpio.EDGE_FALLING);
