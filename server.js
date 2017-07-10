@@ -36,4 +36,4 @@ gpio.on('change', function() {
     // transporter.sendMail(mailOptions, function(){});
     console.log('hello!!!!');
 });
-gpio.setup(5, gpio.DIR_IN, gpio.EDGE_FALLING);
+gpio.setup(5, gpio.DIR_IN, gpio.EDGE_RISING);
