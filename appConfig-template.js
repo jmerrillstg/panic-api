@@ -15,6 +15,7 @@ var appConfig = {
     },
     jwtKey: '', // Change this to the jwt_key you wish to use
     appUrl: '', // Change this to the front end's main URL for the environment you are on
-    environment: '' // Change this to 'dev' or 'production'
+    environment: '', // Change this to 'dev' or 'production'
+    gpioPin: 5 // Change this to the pin number the button is connected to
 };
 module.exports = appConfig;

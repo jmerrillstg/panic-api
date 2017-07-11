@@ -5,7 +5,9 @@ var express = require('express'),
     bearerToken = require('express-bearer-token'),
     nodemailer = require('nodemailer'),
     appConfig = require('./appConfig.js'),
-    transporter = nodemailer.createTransport(appConfig.mailConfig);
+    transporter = nodemailer.createTransport(appConfig.mailConfig),
+    mysql = require('mysql'),
+    connection = mysql.createConnection(appConfig.dbConnect);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -22,23 +24,36 @@ var routes = require('./api/routes/panicApiRoutes');
 routes(app);
 
 app.listen(port);
-var lastPressed=0;
 console.log('panic RESTful API server started on: ' + port);
+
 if (appConfig.environment==='production') {
+    console.log('listening for button-presses on GPIO pin '+appConfig.gpioPin);
+    var lastPressed=0;
     var gpio = require('rpi-gpio');
     gpio.on('change', function() {
-        var mailOptions = {
-            from: appConfig.mailConfig.auth.user,
-            to: appConfig.mailConfig.auth.user, // TODO: change this to the real recipient. For now it just sends to the user sending the message
-            subject: 'this email was sent by pushing a button!',
-            text: 'did this work?'
-        };
-        transporter.sendMail(mailOptions, function(){});
         var d = new Date();
         if(lastPressed+5<Math.round(d.getTime() / 1000)) {
-            console.log('pressed');
+            var messageQuery = 'SELECT (SELECT message_text FROM messages) AS message_text, (SELECT GROUP_CONCAT(recipient_email SEPARATOR \';\') FROM recipients) AS recipients;';
+
+            connection.query(messageQuery, function (err, message) {
+                if (err || !message || !message.length) {
+                    console.log('Can\'t get message');
+                } else {
+                    var mailOptions = {
+                        from: appConfig.mailConfig.auth.user,
+                        to: message[0].recipients,
+                        subject: 'Panic Button',
+                        text: message[0].message_text,
+                        priority: 'high'
+                    };
+                    transporter.sendMail(mailOptions, function(){});
+                }
+            });
+
             lastPressed=Math.round(d.getTime() / 1000);
         }
     });
-    gpio.setup(5, gpio.DIR_IN, gpio.EDGE_FALLING);
+    gpio.setup(appConfig.gpioPin, gpio.DIR_IN, gpio.EDGE_FALLING);
+} else {
+    console.log('This application needs to run on a Raspberry Pi with a button connected to GPIO pin '+appConfig.gpioPin)
 }
