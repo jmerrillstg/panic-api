@@ -28,8 +28,8 @@ if (appConfig.environment==='production') {
     var gpio = require('rpi-gpio');
     gpio.on('change', function() {
         var mailOptions = {
-            from: mailconfig.auth.user,
-            to: mailconfig.auth.user, // change this to the real recipient. For now it just sends to the user sending the message
+            from: appConfig.mailConfig.auth.user,
+            to: appConfig.mailConfig.auth.user, // TODO: change this to the real recipient. For now it just sends to the user sending the message
             subject: 'this email was sent by pushing a button!',
             text: 'did this work?'
         };
