@@ -47,6 +47,12 @@ if (appConfig.environment==='production') {
                         priority: 'high'
                     };
                     transporter.sendMail(mailOptions, function(){});
+                    var logMessageQuery = 'INSERT INTO log (log_time) VALUES (NOW())';
+                    connection.query(logMessageQuery, function (err) {
+                        if (err) {
+                            console.log('logging error');
+                        }
+                    });
                 }
             });
 
@@ -55,5 +61,5 @@ if (appConfig.environment==='production') {
     });
     gpio.setup(appConfig.gpioPin, gpio.DIR_IN, gpio.EDGE_FALLING);
 } else {
-    console.log('This application needs to run on a Raspberry Pi with a button connected to GPIO pin '+appConfig.gpioPin)
+    console.log('This application needs to run on a Raspberry Pi with a button connected to GPIO pin '+appConfig.gpioPin);
 }
