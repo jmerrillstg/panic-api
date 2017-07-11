@@ -1,14 +1,11 @@
-var mysql = require('mysql');
-var dbconnect = require('../../dbconnect.js');
-var connection = mysql.createConnection(dbconnect);
-var passwordHash = require('password-hash');
-var jwt = require('jsonwebtoken');
-var jwtKey = require('../../jwtKey.js');
-var verifyToken = require('../../verifyToken.js');
-var nodemailer = require('nodemailer');
-var mailConfig = require('../../mailConfig.js');
-var transporter = nodemailer.createTransport(mailConfig);
-var appUrl = require('../../appUrl.js');
+var mysql = require('mysql'),
+    appConfig = require('../../appConfig.js'),
+    connection = mysql.createConnection(appConfig.dbConnect),
+    passwordHash = require('password-hash'),
+    jwt = require('jsonwebtoken'),
+    verifyToken = require('../../verifyToken.js'),
+    nodemailer = require('nodemailer'),
+    transporter = nodemailer.createTransport(appConfig.mailConfig);
 
 exports.get_users = function(req, res) {
     var whereClause='';
@@ -30,7 +27,7 @@ exports.get_users = function(req, res) {
 };
 
 exports.add_user = function(req, res) {
-    if(verifyToken(req.token, jwtKey)) {
+    if(verifyToken(req.token, appConfig.jwtKey)) {
         var decodedToken = jwt.decode(req.token);
         if (decodedToken.userLevel==='admin') {
             var userQuery = 'SELECT user_email FROM users WHERE user_email=\'' + req.body.email + '\'';
@@ -69,7 +66,7 @@ exports.add_user = function(req, res) {
 };
 
 exports.update_user = function(req, res) {
-    if(verifyToken(req.token, jwtKey)) {
+    if(verifyToken(req.token, appConfig.jwtKey)) {
         var decodedToken = jwt.decode(req.token);
         if (decodedToken.id === req.params.userId || decodedToken.userLevel === 'admin') {
 
@@ -90,7 +87,7 @@ exports.update_user = function(req, res) {
 };
 
 exports.delete_user = function(req, res) {
-    if(verifyToken(req.token, jwtKey)) {
+    if(verifyToken(req.token, appConfig.jwtKey)) {
         var decodedToken = jwt.decode(req.token);
         if (decodedToken.userLevel==='admin') {
             var deleteUserQuery='DELETE FROM users WHERE user_id='+req.params.userId;

@@ -3,10 +3,9 @@ var express = require('express'),
     port = process.env.PORT || 3001,
     bodyParser = require('body-parser'),
     bearerToken = require('express-bearer-token'),
-    gpio = require('rpi-gpio'),
     nodemailer = require('nodemailer'),
-    mailConfig = require('./mailConfig.js'),
-    transporter = nodemailer.createTransport(mailConfig);
+    appConfig = require('./appConfig.js'),
+    transporter = nodemailer.createTransport(appConfig.mailConfig);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -25,18 +24,21 @@ routes(app);
 app.listen(port);
 var lastPressed=0;
 console.log('panic RESTful API server started on: ' + port);
-gpio.on('change', function() {
-    // var mailOptions = {
-    //     from: mailconfig.auth.user,
-    //     to: mailconfig.auth.user, // change this to the real recipient. For now it just sends to the user sending the message
-    //     subject: 'this email was sent by pushing a button!',
-    //     text: 'did this work?'
-    // };
-    // transporter.sendMail(mailOptions, function(){});
-    var d = new Date();
-    if(lastPressed+5<Math.round(d.getTime() / 1000)) {
-        console.log('pressed');
-        lastPressed=Math.round(d.getTime() / 1000);
-    }
-});
-gpio.setup(5, gpio.DIR_IN, gpio.EDGE_FALLING);
+if (appConfig.environment==='production') {
+    var gpio = require('rpi-gpio');
+    gpio.on('change', function() {
+        var mailOptions = {
+            from: mailconfig.auth.user,
+            to: mailconfig.auth.user, // change this to the real recipient. For now it just sends to the user sending the message
+            subject: 'this email was sent by pushing a button!',
+            text: 'did this work?'
+        };
+        transporter.sendMail(mailOptions, function(){});
+        var d = new Date();
+        if(lastPressed+5<Math.round(d.getTime() / 1000)) {
+            console.log('pressed');
+            lastPressed=Math.round(d.getTime() / 1000);
+        }
+    });
+    gpio.setup(5, gpio.DIR_IN, gpio.EDGE_FALLING);
+}

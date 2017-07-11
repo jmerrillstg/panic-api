@@ -1,9 +1,8 @@
-var mysql = require('mysql');
-var dbconnect = require('../../dbconnect.js');
-var passwordHash = require('password-hash');
-var connection = mysql.createConnection(dbconnect);
-var jwt = require('jsonwebtoken');
-var jwtKey = require('../../jwtKey.js');
+var mysql = require('mysql'),
+    appConfig = require('../../appConfig.js'),
+    passwordHash = require('password-hash'),
+    connection = mysql.createConnection(appConfig.dbConnect),
+    jwt = require('jsonwebtoken');
 
 exports.login = function(req, res) {
     var loginQuery = 'SELECT user_id, user_password, user_level FROM users WHERE user_email=\''+req.body.username+'\'';
@@ -17,7 +16,7 @@ exports.login = function(req, res) {
                     if (err) {
                         return res.status(500).json({'status': 'Database error'});
                     } else {
-                        var token = jwt.sign({id: auth[0].user_id, userLevel: auth[0].user_level}, jwtKey);
+                        var token = jwt.sign({id: auth[0].user_id, userLevel: auth[0].user_level}, appConfig.jwtKey);
                         return res.json({'token' : token});
                     }
                 });

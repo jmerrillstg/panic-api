@@ -1,8 +1,8 @@
-var mysql = require('mysql');
-var dbconnect = require('../../dbconnect.js');
-var passwordHash = require('password-hash');
-var connection = mysql.createConnection(dbconnect);
-var jwt = require('jsonwebtoken');
+var mysql = require('mysql'),
+    passwordHash = require('password-hash'),
+    appConfig = require('../../appConfig.js'),
+    connection = mysql.createConnection(appConfig.dbConnect),
+    jwt = require('jsonwebtoken');
 
 
 

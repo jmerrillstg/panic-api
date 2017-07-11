@@ -1,10 +1,9 @@
-var mysql = require('mysql');
-var dbconnect = require('../../dbconnect.js');
-var passwordHash = require('password-hash');
-var connection = mysql.createConnection(dbconnect);
-var nodemailer = require('nodemailer');
-var mailConfig = require('../../mailConfig.js');
-var transporter = nodemailer.createTransport(mailConfig);
+var mysql = require('mysql'),
+    appConfig = require('../../appConfig.js'),
+    passwordHash = require('password-hash'),
+    connection = mysql.createConnection(appConfig.dbConnect),
+    nodemailer = require('nodemailer'),
+    transporter = nodemailer.createTransport(appConfig.mailConfig);
 
 exports.reset_password = function(req, res) {
     console.log(req.params.userEmail);

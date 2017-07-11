@@ -3,8 +3,5 @@
 /.idea/
 /node_modules/
 /npm-debug.log
-/jwtKey.js
-/dbconnect.js
 /panic-api.iml
-/mailConfig.js
-/appUrl.js
+/appConfig.js
